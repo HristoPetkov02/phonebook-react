@@ -20,7 +20,7 @@ export default function App() {
       console.error('Error making POST request:', error);
     }
   };
-//test
+
   return (
     <div>
       <h1>Welcome to my app</h1>
