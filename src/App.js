@@ -1,25 +1,58 @@
-import logo from './logo.svg';
-import './App.css';
+//import logo from './logo.svg';
+//import './App.css';
+import React, { useState } from 'react';
+import axios from 'axios';
 
-function App() {
+export default function App() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [result, setResult] = useState(null);
+
+  const handlePostRequest = async () => {
+    try {
+      const response = await axios.post('http://localhost:8081/logIn', {
+        username: username,
+        password: password,
+      });
+
+      setResult(response.data);
+    } catch (error) {
+      console.error('Error making POST request:', error);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Welcome to my app</h1>
+      <br />
+      <label>Username</label>
+      <input type='text' value={username} onChange={(e) => setUsername(e.target.value)} />
+      <br />
+      <label>Password</label>
+      <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+      <br />
+      <LogIn handlePostRequest={handlePostRequest} />
+
+      {result && (
+        <div>
+          <h2>Response:</h2>
+          <pre>{JSON.stringify(result, null, 2)}</pre>
+        </div>
+      )}
     </div>
   );
 }
 
-export default App;
+function LogIn({ handlePostRequest }) {
+  const handleClick = () => {
+    handlePostRequest();
+  };
+
+  return (
+    <button onClick={handleClick}>Log In</button>
+  );
+}
+
+
+
+//export default App;
