@@ -1,10 +1,22 @@
 //import logo from './logo.svg';
 //import './App.css';
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import CustomLoginPage from './components/CustomLoginPage';
+import AccountList from './components/AccountList';
 import axios from 'axios';
 
 export default function App() {
-  const [username, setUsername] = useState('');
+  return (
+    <Router>
+        <Switch>
+          <Route path="/login" component={CustomLoginPage} />
+          <Route path="/account/all" component={AccountList} />
+        </Switch>
+    </Router>
+    
+  );
+ /* const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [result, setResult] = useState(null);
 
@@ -40,7 +52,7 @@ export default function App() {
         </div>
       )}
     </div>
-  );
+  );*/
 }
 
 function LogIn({ handlePostRequest }) {
