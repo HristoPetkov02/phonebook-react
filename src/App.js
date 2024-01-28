@@ -1,58 +1,40 @@
 //import logo from './logo.svg';
 //import './App.css';
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import CustomLoginPage from './components/CustomLoginPage';
-import AccountList from './components/AccountList';
-import axios from 'axios';
+
+import { BrowserRouter as Router, Route, Routes  } from 'react-router-dom';
+
+import Login from './pages/forAccounts/Login';
+import Accounts from './pages/forAccounts/Accounts';
+import AccountDetails from './pages/forAccounts/AccountDetails';
+import AccountManagment from './pages/forAccounts/AccountManagement';
+import Register from './pages/forAccounts/Register';
+
+import FacultyList from './pages/faculties/FacultyList';
+import UpdateFaculty from './pages/faculties/UpdateFaculty';
+import AddFaculty from './pages/faculties/AddFaculty';
+
+import Home from './pages/Home';
+
 
 export default function App() {
   return (
     <Router>
-        <Switch>
-          <Route path="/login" component={CustomLoginPage} />
-          <Route path="/account/all" component={AccountList} />
-        </Switch>
+      <Routes >
+        <Route exact path="/" element={<Home/>} />
+
+        <Route exact path="/account/register" element={<Register/>} />
+        <Route exact path="/account/login" element={<Login/>} />
+        <Route exact path="/account/all" element={<Accounts/>} />
+        <Route exact path="/account/details" element={<AccountDetails/>} />
+        <Route exact path="/account/managment" element={<AccountManagment/>} />
+
+        <Route exact path="/faculty/list" element={<FacultyList/>} />
+        <Route exact path="/faculty/update/:id" element={<UpdateFaculty/>} />
+        <Route exact path="/faculty/add" element={<AddFaculty/>} />
+      </Routes>
     </Router>
-    
   );
- /* const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [result, setResult] = useState(null);
-
-  const handlePostRequest = async () => {
-    try {
-      const response = await axios.post('http://localhost:8081/logIn', {
-        username: username,
-        password: password,
-      });
-
-      setResult(response.data);
-    } catch (error) {
-      console.error('Error making POST request:', error);
-    }
-  };
-
-  return (
-    <div>
-      <h1>Welcome to my app</h1>
-      <br />
-      <label>Username</label>
-      <input type='text' value={username} onChange={(e) => setUsername(e.target.value)} />
-      <br />
-      <label>Password</label>
-      <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
-      <br />
-      <LogIn handlePostRequest={handlePostRequest} />
-
-      {result && (
-        <div>
-          <h2>Response:</h2>
-          <pre>{JSON.stringify(result, null, 2)}</pre>
-        </div>
-      )}
-    </div>
-  );*/
 }
 
 function LogIn({ handlePostRequest }) {

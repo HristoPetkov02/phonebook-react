@@ -5,9 +5,12 @@ import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
-  <React.StrictMode>
+  //Когато е активен strictMode alert-товете се появяват 2 пъти 
+  //<React.StrictMode>
     <App />
-  </React.StrictMode>
+ // </React.StrictMode>
 );

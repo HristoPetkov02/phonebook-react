@@ -1,0 +1,71 @@
+.menu {
+    list-style-type: none; /* Remove bullets */
+    padding: 0;
+    margin: 10px 0;
+    background-color: #f1f1f1; 
+    overflow: hidden; /* Clears any floated elements within the menu to prevent layout issues. */
+}
+
+.menu li {
+    display: inline-block; /* Make the list horizontal */
+    margin-right: 10px;
+}
+
+.menu li a {
+    display: block;
+    color: #333;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    border: 1px solid transparent; 
+    border-radius: 5px; 
+}
+
+.menu li a:hover {
+    background-color: lightblue;
+    border-color: blue;
+    color: white;
+}
+
+.menu li a.active {
+    background-color: blue;
+    border-color: blue;
+    color: white;
+}
+
+.submenu {
+    display: none;
+    list-style-type: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border: 1px solid blue;
+    margin: 0;
+    padding: 0;
+}
+
+.menu li:hover .submenu {
+    display: block;
+}
+
+.submenu li {
+    float: none;
+    display: list-item;
+    position: relative;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.submenu li a {
+    padding: 12px 16px;
+    text-align: left;
+    display: block;
+    border: none; 
+}
+
+.submenu li a:hover {
+    background-color: lightblue;
+    border-color: blue; 
+    color: white;
+}
