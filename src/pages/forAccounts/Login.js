@@ -27,6 +27,11 @@ const Login = () => {
       }
     }
   };
+
+  const isButtonDisabled = () => {
+    // ще върне true, ако има празно поле
+    return username === '' || password === '';
+  };
   
 
   return (
@@ -49,7 +54,10 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button type="button" onClick={handleLogin}>
+        <button type="button" onClick={handleLogin}
+          disabled={isButtonDisabled()}
+          title={isButtonDisabled() ? "All fields are required" : ""}
+        >
           Login
         </button>
       </form>

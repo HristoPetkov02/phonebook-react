@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate  } from 'react-router-dom';
+import handleApiError from '../../utils/handleApiError';
 
 const AccountDetails = () => {
   const [details, setUserDetails] = useState(null);
@@ -17,16 +18,7 @@ const AccountDetails = () => {
 
         setUserDetails(response.data);
       } catch (error) {
-        if (error.response) {
-          const statusCode = error.response.status;
-
-          if (statusCode === 500) {
-            alert("Session expired. Please log in again.\nYou will be redirected automaticaly");
-            navigate('/account/login');
-          }
-        }
-        
-        console.error('Error fetching user details:', error.message);
+        handleApiError(error, navigate);
       }
     };
 

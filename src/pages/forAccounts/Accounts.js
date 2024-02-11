@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate  } from 'react-router-dom';
+import handleApiError from '../../utils/handleApiError';
 
 
 const Accounts = () => {
@@ -27,27 +28,10 @@ const Accounts = () => {
         setAccounts(response.data);
       })
       .catch(error => {
-        if (error.response) {
-            
-            const statusCode = error.response.status;
-    
-            if (statusCode === 500) {
-              alert("Session expired. Please log in again.\nYou will be redirected automaticaly");
-              navigate('/account/login');
-            } else if (statusCode === 403) {
-              alert("You don't have the authority to view this information. Returning to home page.");
-              navigate('/account/login');
-            } else {
-              console.error('Error fetching accounts:', error.message);
-            }
-          } else if (error.request) {
-            console.error('No response received:', error.message);
-          } else {
-            console.error('Error setting up the request:', error.message);
-          }
-        });
+        handleApiError(error, navigate);
+      });
     }
-  }, [navigate]); 
+  }, [navigate]); //navigate е добавен като зависимост, за да може да се използва в catch блока
 
   return (
     <div>

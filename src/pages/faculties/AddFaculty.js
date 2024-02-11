@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate  } from 'react-router-dom';
+import handleApiError from '../../utils/handleApiError';
 
 const AddFaculty = () => {
   const [facultyData, setFacultyData] = useState({
     facultyCode: '',
     facultyName: '',
   });
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     setFacultyData({
+      // това се нарича "spread" оператор и я ползваме, за да променим само променените полета
+      // в този случай, ако имаме facultyData = {facultyCode: '123', facultyName: 'Faculty 1'}
+      // и извикаме setFacultyData({facultyCode: '1234'}), ще получим facultyData = {facultyCode: '1234', facultyName: 'Faculty 1'}
       ...facultyData,
       [e.target.name]: e.target.value,
     });
@@ -28,7 +34,8 @@ const AddFaculty = () => {
       })
       .catch(error => {
         alert("Error adding faculty!");
-        console.error('Error updating faculty:', error);
+        handleApiError(error, navigate);
+        //console.error('Error adding faculty:', error);
       });
   };
 
@@ -50,10 +57,16 @@ const AddFaculty = () => {
           alert("Faculties added successfully!");
         })
         .catch(error => {
-          console.error('Error updating faculty:', error);
+          //console.error('Error adding faculty:', error);
           alert("Error adding faculties!");
+          handleApiError(error, navigate);
         });
     }
+  };
+
+  const isButtonDisabled = () => {
+    // ще върне true, ако има празно поле
+    return facultyData.facultyCode === '' || facultyData.facultyName === '';
   };
 
   return (
@@ -70,7 +83,10 @@ const AddFaculty = () => {
           <input type="text" name="facultyName" value={facultyData.facultyName} onChange={handleInputChange} />
         </label>
         <br />
-        <button type="button" onClick={handleNormalInsert}>Insert Faculty</button>
+        <button type="button" onClick={handleNormalInsert}
+          disabled={isButtonDisabled()}
+          title = {isButtonDisabled() ? "All fields are required" : ""}
+        >Insert Faculty</button>
         <br />
         <label>
           Upload Excel File:

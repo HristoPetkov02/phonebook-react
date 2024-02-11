@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate  } from 'react-router-dom';
+import handleApiError from '../../utils/handleApiError';
 
 const AccountManagement = () => {
   const [accounts, setAccounts] = useState([]);
@@ -18,30 +19,12 @@ const AccountManagement = () => {
 
         setAccounts(response.data);
       } catch (error) {
-        handleApiError(error);
+        handleApiError(error, navigate);
       }
     };
 
     fetchAccounts();
   }, []);
-
-  const handleApiError = (error) => {
-    if (error.response) {
-      const statusCode = error.response.status;
-
-      if (statusCode === 500) {
-        alert('Session expired. Please log in again.\nYou will be redirected automatically');
-        navigate('/account/login');
-      } else if (statusCode === 403) {
-        alert("You don't have the authority to view this information. Returning to home page.");
-        navigate('/account/login');
-      } else {
-        console.error('API request failed with status code:', statusCode);
-      }
-    } else {
-      console.error('API request failed:', error.message);
-    }
-  };
 
   const handleGrantAuthority = async () => {
     try {
@@ -58,7 +41,7 @@ const AccountManagement = () => {
   
       alert(`Granted authority to ${selectedAccount}.`);
     } catch (error) {
-      handleApiError(error);
+      handleApiError(error, navigate);
     }
   };
   
@@ -76,8 +59,12 @@ const AccountManagement = () => {
   
       alert(`Revoked authority from ${selectedAccount}.`);
     } catch (error) {
-      handleApiError(error);
+      handleApiError(error, navigate);
     }
+  };
+
+  const isButtonDisabled = () => {
+    return selectedAccount === '';
   };
 
   return (
@@ -92,10 +79,16 @@ const AccountManagement = () => {
             ))}
         </select>
       <br />
-      <button type="button" onClick={handleGrantAuthority}>
+      <button type="button" onClick={handleGrantAuthority}
+       disabled={isButtonDisabled()}
+       title={isButtonDisabled() ? "Select an account" : ""}
+      >
         Grant Authority
       </button>
-      <button type="button" onClick={handleRevokeAuthority}>
+      <button type="button" onClick={handleRevokeAuthority}
+        disabled={isButtonDisabled()}
+        title={isButtonDisabled() ? "Select an account" : ""}
+      >
         Revoke Authority
       </button>
     </div>

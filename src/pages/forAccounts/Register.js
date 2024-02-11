@@ -30,6 +30,11 @@ const Register = () => {
     }
   };
 
+  const isButtonDisabled = () => {
+    // ще върне true, ако има празно поле
+    return username === '' || email === '' || password === '';
+  };
+
   return (
     <div>
       <h2>Register</h2>
@@ -49,7 +54,10 @@ const Register = () => {
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </label>
         <br />
-        <button type="button" onClick={handleRegister}>
+        <button type="button" onClick={handleRegister}
+          disabled={isButtonDisabled()}
+          title={isButtonDisabled() ? "All fields are required" : ""}
+        >
           Register
         </button>
       </form>
